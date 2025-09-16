@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Asistencias a Eventos</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        header {
+            background: #4a00e0;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .description {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .form-container {
+            padding: 25px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, select:focus {
+            border-color: #4a00e0;
+            outline: none;
+        }
+        
+        .btn {
+            background: #4a00e0;
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            transition: background 0.3s;
+        }
+        
+        .btn:hover {
+            background: #3a00b0;
+        }
+        
+        .records-container {
+            padding: 25px;
+            border-top: 1px solid #eee;
+        }
+        
+        .section-title {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #4a00e0;
+            text-align: center;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        
+        tr:hover {
+            background-color: #f5f7ff;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .edit-btn, .delete-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .edit-btn {
+            background: #ffc107;
+            color: #000;
+        }
+        
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .summary {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .summary h3 {
+            margin-bottom: 10px;
+            color: #4a00e0;
+        }
+        
+        .export-btn {
+            background: #28a745;
+            margin-top: 15px;
+        }
+        
+        .export-btn:hover {
+            background: #218838;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                border-radius: 10px;
+            }
+            
+            th, td {
+                padding: 8px 10px;
+            }
+            
+            .actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Registro de Asistencias a Eventos</h1>
+            <p class="description">Sistema de captura de datos para eventos semanales recurrentes</p>
+        </header>
+        
+        <div class="form-container">
+            <form id="attendance-form">
+                <div class="form-group">
+                    <label for="nick">Nick del Jugador:</label>
+                    <input type="text" id="nick" name="nick" required placeholder="Ingresa el nick del jugador">
+                </div>
+                
+                <div class="form-group">
+                    <label for="date">Fecha del Evento:</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="event">Evento Asistido:</label>
+                    <select id="event" name="event" required>
+                        <option value="">Selecciona un evento</option>
+                        <option value="PvP Rifstone: 5 puntos">PvP Rifstone: 5 puntos</option>
+                        <option value="PvP Boonstone: 5 puntos">PvP Boonstone: 5 puntos</option>
+                        <option value="Interserver Rifstone: 5 Puntos">Interserver Rifstone: 5 Puntos</option>
+                        <option value="Interserver Boosntone: 5 Puntos">Interserver Boosntone: 5 Puntos</option>
+                        <option value="Guild Boss: 1 Punto">Guild Boss: 1 Punto</option>
+                        <option value="World Boss Guild: 5 Puntos">World Boss Guild: 5 Puntos</option>
+                        <option value="Wargames-Otros: 3 Puntos">Wargames-Otros: 3 Puntos</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn">Registrar Asistencia</button>
+            </form>
+        </div>
+        
+        <div class="records-container">
+            <h2 class="section-title">Registros de Asistencia</h2>
+            <div class="table-responsive">
+                <table id="records-table">
+                    <thead>
+                        <tr>
+                            <th>Nick</th>
+                            <th>Fecha</th>
+                            <th>Evento</th>
+                            <th>Puntos</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="records-body">
+                        <!-- Los registros se insertarán aquí dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="summary">
+                <h3>Resumen de Puntos</h3>
+                <div id="points-summary">
+                    <!-- El resumen de puntos se insertará aquí -->
+                </div>
+            </div>
+            
+            <button id="export-btn" class="btn export-btn">Exportar Datos a CSV</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('attendance-form');
+            const recordsBody = document.getElementById('records-body');
+            const pointsSummary = document.getElementById('points-summary');
+            const exportBtn = document.getElementById('export-btn');
+            
+            // Establecer la fecha de hoy por defecto
+            document.getElementById('date').valueAsDate = new Date();
+            
+            // Cargar registros existentes
+            loadRecords();
+            
+            // Manejar el envío del formulario
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const nick = document.getElementById('nick').value;
+                const date = document.getElementById('date').value;
+                const event = document.getElementById('event').value;
+                
+                if (!nick || !date || !event) {
+                    alert('Por favor, completa todos los campos');
+                    return;
+                }
+                
+                addRecord(nick, date, event);
+                form.reset();
+                document.getElementById('date').valueAsDate = new Date();
+            });
+            
+            // Manejar la exportación de datos
+            exportBtn.addEventListener('click', exportToCSV);
+            
+            // Función para agregar un nuevo registro
+            function addRecord(nick, date, event) {
+                const records = getRecords();
+                
+                // Extraer puntos del texto del evento
+                const points = parseInt(event.match(/\d+/)[0]);
+                
+                records.push({
+                    id: Date.now(), // ID único basado en timestamp
+                    nick: nick,
+                    date: date,
+                    event: event,
+                    points: points
+                });
+                
+                localStorage.setItem('attendanceRecords', JSON.stringify(records));
+                loadRecords();
+            }
+            
+            // Función para cargar todos los registros
+            function loadRecords() {
+                const records = getRecords();
+                recordsBody.innerHTML = '';
+                
+                if (records.length === 0) {
+                    recordsBody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No hay registros aún</td></tr>';
+                    pointsSummary.innerHTML = '<p>No hay datos para mostrar</p>';
+                    return;
+                }
+                
+                let pointsByUser = {};
+                
+                records.forEach(record => {
+                    const row = document.createElement('tr');
+                    
+                    row.innerHTML = `
+                        <td>${record.nick}</td>
+                        <td>${formatDate(record.date)}</td>
+                        <td>${record.event}</td>
+                        <td>${record.points}</td>
+                        <td class="actions">
+                            <button class="edit-btn" data-id="${record.id}">Editar</button>
+                            <button class="delete-btn" data-id="${record.id}">Eliminar</button>
+                        </td>
+                    `;
+                    
+                    recordsBody.appendChild(row);
+                    
+                    // Calcular puntos por usuario
+                    if (!pointsByUser[record.nick]) {
+                        pointsByUser[record.nick] = 0;
+                    }
+                    pointsByUser[record.nick] += record.points;
+                });
+                
+                // Agregar event listeners para botones de editar y eliminar
+                document.querySelectorAll('.edit-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const id = this.getAttribute('data-id');
+                        editRecord(id);
+                    });
+                });
+                
+                document.querySelectorAll('.delete-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const id = this.getAttribute('data-id');
+                        deleteRecord(id);
+                    });
+                });
+                
+                // Mostrar resumen de puntos
+                displayPointsSummary(pointsByUser);
+            }
+            
+            // Función para obtener registros desde localStorage
+            function getRecords() {
+                const recordsJSON = localStorage.getItem('attendanceRecords');
+                return recordsJSON ? JSON.parse(recordsJSON) : [];
+            }
+            
+            // Función para formatear fecha
+            function formatDate(dateString) {
+                const options = { year: 'numeric', month: 'short', day: 'numeric' };
+                return new Date(dateString).toLocaleDateString('es-ES', options);
+            }
+            
+            // Función para mostrar el resumen de puntos
+            function displayPointsSummary(pointsByUser) {
+                let summaryHTML = '';
+                
+                for (const [user, points] of Object.entries(pointsByUser)) {
+                    summaryHTML += `<p><strong>${user}:</strong> ${points} puntos</p>`;
+                }
+                
+                pointsSummary.innerHTML = summaryHTML;
+            }
+            
+            // Función para editar un registro
+            function editRecord(id) {
+                const records = getRecords();
+                const record = records.find(r => r.id == id);
+                
+                if (record) {
+                    document.getElementById('nick').value = record.nick;
+                    document.getElementById('date').value = record.date;
+                    document.getElementById('event').value = record.event;
+                    
+                    // Eliminar el registro actual para reemplazarlo después
+                    deleteRecord(id, false);
+                }
+            }
+            
+            // Función para eliminar un registro
+            function deleteRecord(id, reload = true) {
+                if (confirm('¿Estás seguro de que quieres eliminar este registro?')) {
+                    const records = getRecords();
+                    const updatedRecords = records.filter(record => record.id != id);
+                    
+                    localStorage.setItem('attendanceRecords', JSON.stringify(updatedRecords));
+                    
+                    if (reload) {
+                        loadRecords();
+                    }
+                }
+            }
+            
+            // Función para exportar a CSV
+            function exportToCSV() {
+                const records = getRecords();
+                
+                if (records.length === 0) {
+                    alert('No hay datos para exportar');
+                    return;
+                }
+                
+                let csvContent = "Nick,Fecha,Evento,Puntos\n";
+                
+                records.forEach(record => {
+                    csvContent += `"${record.nick}","${record.date}","${record.event}",${record.points}\n`;
+                });
+                
+                const encodedUri = encodeURI("data:text/csv;charset=utf-8," + csvContent);
+                const link = document.createElement("a");
+                link.setAttribute("href", encodedUri);
+                link.setAttribute("download", "registro_asistencias.csv");
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        });
+    </script>
+</body>
+</html>
